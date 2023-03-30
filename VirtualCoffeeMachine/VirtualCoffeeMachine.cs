@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace VirtualCoffeeMachine
 {
     public class CoffeeMachine
@@ -24,10 +19,10 @@ namespace VirtualCoffeeMachine
             };
         }   
 
-        // create a getter that gets the price of the coffee type
+        
         public decimal GetPrice(Coffee coffeeType)
         {
-            //check if the coffee is in the list
+            // ideally returning zero here is not the best, but it will work for now
             if (!Coffees.Contains(coffeeType))
             {
                 return 0;
@@ -63,6 +58,7 @@ namespace VirtualCoffeeMachine
 
         public bool SelectCoffee(Coffee coffee)
         {
+
             var price = GetPrice(coffee);
             // try and find the price of the coffee type, if found set the price variable, then check the rest
             if (Balance >= price && CupsOfCoffee > 0)
@@ -76,7 +72,7 @@ namespace VirtualCoffeeMachine
             return false;
         }
 
-        public Dictionary<decimal, int> ReturnChange()
+        public Dictionary<decimal, int>? ReturnChange()
         {
             // this will hold all the change to return
             var change = new Dictionary<decimal, int>();

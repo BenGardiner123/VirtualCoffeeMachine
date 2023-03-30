@@ -52,7 +52,6 @@ while (true)
             // find the coffee with the id of 1, then get the price of that coffee
             var locatedCap = coffeeMachine.Coffees.Find(c => c.Id == 1);
             if (locatedCap != null && coffeeMachine.GetPrice(locatedCap) <= coffeeMachine.Balance)
-
             {
                 if (coffeeMachine.SelectCoffee(locatedCap))
                 {
