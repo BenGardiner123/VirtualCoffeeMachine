@@ -8,6 +8,7 @@ namespace VirtualCoffeeMachine
 {
     public class CoffeeMachine
     {
+        public bool showGreeting { get; set; } = true;
         public List<Coffee> Coffees { get; private set; }
         public decimal Balance { get; private set; } = 0M;
         public decimal TotalSales { get; private set; } = 0M;
@@ -78,7 +79,8 @@ namespace VirtualCoffeeMachine
         public Dictionary<decimal, int> ReturnChange()
         {
             // this will hold all the change to return
-            Dictionary<decimal, int> change = new Dictionary<decimal, int>();
+            var change = new Dictionary<decimal, int>();
+
             // get the current balance
             decimal amountToReturn = Balance;
                 

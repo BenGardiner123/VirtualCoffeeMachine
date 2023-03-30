@@ -4,7 +4,14 @@ CoffeeMachine coffeeMachine = new CoffeeMachine();
 
 while (true)
 {
-    
+    if (coffeeMachine.showGreeting)
+    {
+        Console.WriteLine("Hi, Welcome to the Virtual Coffee Machine");
+        Console.WriteLine("-----------------------------------------");
+        coffeeMachine.showGreeting = false;
+    }
+
+
     Console.WriteLine("Current balance: {0:C}", coffeeMachine.Balance);
 
     Console.WriteLine("Enter 'A' to add coins");
