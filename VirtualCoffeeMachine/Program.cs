@@ -3,11 +3,18 @@ using VirtualCoffeeMachine;
 CoffeeMachine coffeeMachine = new CoffeeMachine();
 
 
+
 while (true)
 {
     Console.WriteLine("Current balance: {0:C}", coffeeMachine.Balance);
 
     Console.WriteLine("Enter 'A' to add coins");
+
+    // if their balance is >0 they can refund their money
+    if (coffeeMachine.Balance > 0)
+    {
+        Console.WriteLine("Enter 'R' to refund balamce");
+    }
 
     if (coffeeMachine.Balance >= 3.50M)
     {
@@ -98,16 +105,27 @@ while (true)
             decimal coinValue = decimal.Parse(Console.ReadLine());
             if (coffeeMachine.InsertCoin(coinValue))
             {
-                Console.WriteLine("Coin accepted.");
+                Console.WriteLine("Coin accepted. Thanky you");
             }
             else
             {
-                Console.WriteLine("Invalid coin.");
+                Console.WriteLine("** Coin returned - 1c and 2c Coins are not useable **.");
             }
             break;
         default:
             Console.WriteLine("Invalid choice.");
             break;
+        case "r":
+            if (coffeeMachine.Balance > 0M)
+            {
+                Dictionary<decimal, int> change = coffeeMachine.ReturnChange();
+                Console.WriteLine("Dispensing change:");
+                foreach (KeyValuePair<decimal, int> kvp in change)
+                {
+                    Console.WriteLine("{0:C} x {1}", kvp.Key, kvp.Value);
+                }
+            }
+            break;  
     }
 
     Console.WriteLine();

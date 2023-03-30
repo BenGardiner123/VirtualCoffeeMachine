@@ -13,13 +13,13 @@ namespace VirtualCoffeeMachine
         public decimal TotalSales { get; private set; } = 0M;
         public int CupsOfCoffee { get; private set; } = 10;
         public Dictionary<decimal, int> ChangeAvailable { get; private set; } = new Dictionary<decimal, int>()
-    {
-        { 2M, 10 },
-        { 1M, 10 },
-        { 0.5M, 10 },
-        { 0.2M, 10 },
-        { 0.1M, 10 }
-    };
+        {
+            { 2M, 100 },
+            { 1M, 100 },
+            { 0.5M, 100 },
+            { 0.2M, 100 },
+            { 0.1M, 100 }
+        };
 
         public bool InsertCoin(decimal coin)
         {
@@ -74,6 +74,8 @@ namespace VirtualCoffeeMachine
 
             return null;
         }
+
+        
     
 
 
