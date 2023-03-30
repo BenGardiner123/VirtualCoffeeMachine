@@ -2,33 +2,25 @@
 using VirtualCoffeeMachine;
 CoffeeMachine coffeeMachine = new CoffeeMachine();
 
-
-
 while (true)
 {
+    
     Console.WriteLine("Current balance: {0:C}", coffeeMachine.Balance);
 
     Console.WriteLine("Enter 'A' to add coins");
 
-    // if their balance is >0 they can refund their money
     if (coffeeMachine.Balance > 0)
     {
         Console.WriteLine("Enter 'R' to refund balamce");
     }
 
-    if (coffeeMachine.Balance >= 3.50M)
-    {
-        Console.WriteLine("Enter 1 to buy Cappuccino");
-    }
 
-    if (coffeeMachine.Balance >= 3.00M)
+    foreach (Coffee coffee in coffeeMachine.Coffees)
     {
-        Console.WriteLine("Enter 2 to buy Latte");
-    }
-
-    if (coffeeMachine.Balance >= 4.00M)
-    {
-        Console.WriteLine("Enter 3 to buy Decaf");
+        if (coffeeMachine.Balance >= coffee.Price)
+        {
+            Console.WriteLine($"Press #{coffee.Id} for {coffee.Name} ({coffee.Price:C})");
+        }
     }
 
     Console.WriteLine("Enter 0 to exit");
@@ -50,15 +42,18 @@ while (true)
             Environment.Exit(0);
             break;
         case "1":
-            if (coffeeMachine.Price <= coffeeMachine.Balance)
+            // find the coffee with the id of 1, then get the price of that coffee
+            var locatedCap = coffeeMachine.Coffees.Find(c => c.Id == 1);
+            if (locatedCap != null && coffeeMachine.GetPrice(locatedCap) <= coffeeMachine.Balance)
+
             {
-                if (coffeeMachine.SelectCoffee())
+                if (coffeeMachine.SelectCoffee(locatedCap))
                 {
                     Console.WriteLine("Enjoy your Cappuccino!");
                 }
                 else
                 {
-                    Console.WriteLine("Unable to dispense Cappuccino.");
+                    Console.WriteLine("Unable to dispense Cappuccino. We're out of stock");
                 }
             }
             else
@@ -67,15 +62,16 @@ while (true)
             }
             break;
         case "2":
-            if (coffeeMachine.Price <= coffeeMachine.Balance)
+            var locatedLatte = coffeeMachine.Coffees.Find(c => c.Id == 2);
+            if (locatedLatte != null && coffeeMachine.GetPrice(locatedLatte) <= coffeeMachine.Balance)
             {
-                if (coffeeMachine.SelectCoffee())
+                if (coffeeMachine.SelectCoffee(locatedLatte))
                 {
                     Console.WriteLine("Enjoy your Latte!");
                 }
                 else
                 {
-                    Console.WriteLine("Unable to dispense Latte.");
+                    Console.WriteLine("Unable to dispense Latte. We're out of stock");
                 }
             }
             else
@@ -84,9 +80,10 @@ while (true)
             }
             break;
         case "3":
-            if (coffeeMachine.Price <= coffeeMachine.Balance)
+            var locatedDecaf = coffeeMachine.Coffees.Find(c => c.Id == 3);
+            if (locatedDecaf != null && coffeeMachine.GetPrice(locatedDecaf) <= coffeeMachine.Balance)
             {
-                if (coffeeMachine.SelectCoffee())
+                if (coffeeMachine.SelectCoffee(locatedDecaf))
                 {
                     Console.WriteLine("Enjoy your Decaf!");
                 }
@@ -102,14 +99,22 @@ while (true)
             break;
         case "a":
             Console.WriteLine("Enter coin value (0.1, 0.2, 0.5, 1, 2):");
-            decimal coinValue = decimal.Parse(Console.ReadLine());
-            if (coffeeMachine.InsertCoin(coinValue))
+            decimal parsedCoinValue;
+            // use tryParse to check if the input is a valid decimal
+            if (decimal.TryParse(Console.ReadLine(), out parsedCoinValue))
             {
-                Console.WriteLine("Coin accepted. Thanky you");
+                if (coffeeMachine.InsertCoin(parsedCoinValue))
+                {
+                    Console.WriteLine("Coin accepted. Thank you");
+                }
+                else
+                {
+                    Console.WriteLine("** Invalid Coin **.");
+                }
             }
             else
             {
-                Console.WriteLine("** Coin returned - 1c and 2c Coins are not useable **.");
+                Console.WriteLine("** Invalid input. Please enter a valid coin value. **");
             }
             break;
         default:
